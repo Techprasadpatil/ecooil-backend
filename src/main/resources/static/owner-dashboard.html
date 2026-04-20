@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Owner Dashboard - EcoOil</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg">
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>EcoOil</h2>
+        <p>Dashboard</p>
+        <p>History</p>
+        <p onclick="logout()">Logout</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <h1>Owner Dashboard</h1>
+
+        <!-- ADD BUTTON -->
+        <button class="btn" onclick="openPopup()">Add Oil Request</button>
+
+        <!-- CARDS -->
+        <div class="cards">
+
+            <div class="card green">
+                <h3>Approved</h3>
+                <p id="approved">0</p>
+            </div>
+
+            <div class="card yellow">
+                <h3>Pending</h3>
+                <p id="pending">0</p>
+            </div>
+
+            <div class="card red">
+                <h3>Total</h3>
+                <p id="total">0</p>
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+        <table>
+
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+
+            <tbody id="tableData"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="popup">
+
+    <div class="popup-content">
+        <h3>Add Oil Request</h3>
+
+        <input type="number" id="quantity" placeholder="Enter Quantity">
+
+        <br><br>
+
+        <button onclick="submitRequest()">Submit</button>
+        <button onclick="closePopup()">Cancel</button>
+    </div>
+
+</div>
+
+<script>
+
+    const BASE_URL = "http://localhost:8080/api/oil";
+
+    // LOAD DASHBOARD
+    function loadDashboard() {
+
+        fetch(BASE_URL + "/dashboard-summary?role=OWNER&userId=1")
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById("total").innerText = data.total;
+            document.getElementById("approved").innerText = data.approved;
+            document.getElementById("pending").innerText = data.pending;
+
+            let table = "";
+
+            data.data.forEach(item => {
+
+                table += `
+                    <tr>
+                        <td>${item.requestDate}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.status}</td>
+                        <td>${item.price ? item.price : "-"}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("tableData").innerHTML = table;
+
+        });
+    }
+
+    // POPUP OPEN
+    function openPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    // POPUP CLOSE
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    // ADD REQUEST
+    function submitRequest() {
+
+        let quantity = document.getElementById("quantity").value;
+
+        fetch(BASE_URL + "/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userId: 1,
+                quantity: quantity
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            alert("Request Added ✅");
+
+            closePopup();
+            loadDashboard();
+
+        });
+    }
+
+    // LOGOUT
+    function logout() {
+        alert("Logged out");
+        window.location.href = "login.html";
+    }
+
+    // AUTO LOAD
+    window.onload = loadDashboard;
+
+</script>
+
+</body>
+</html>

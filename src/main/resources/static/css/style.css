@@ -1,0 +1,247 @@
+body.bg {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 190px; /* 🔥 UPDATED (220 → 190) */
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    height: 100vh;
+    padding: 20px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar p {
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar p:hover {
+    color: #00c6ff;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 30px 40px;
+
+    margin-left: 190px; /* 🔥 UPDATED */
+    max-width: calc(100% - 190px); /* 🔥 UPDATED */
+}
+
+/* BUTTON */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* 🔥 ADD BUTTON (important fix) */
+.add-btn {
+    margin: 10px 0 20px 0;
+    display: inline-block;
+    width: 220px; /* 🔥 UPDATED (wider button) */
+    text-align: center;
+}
+
+/* CARDS */
+.cards {
+    display: flex;
+    gap: 15px; /* 🔥 UPDATED (compact) */
+    margin: 15px 0;
+    justify-content: flex-start;
+}
+
+/* CARD */
+.card {
+    flex: 1;
+    padding: 16px; /* 🔥 UPDATED (smaller) */
+    border-radius: 15px;
+    text-align: center;
+    font-size: 16px; /* 🔥 UPDATED */
+
+    min-width: 130px; /* 🔥 UPDATED */
+
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* COLORS */
+.green {
+    background: linear-gradient(135deg, #28a745, #5dd39e);
+}
+
+.yellow {
+    background: linear-gradient(135deg, #ffc107, #ffdd57);
+    color: black;
+}
+
+.red {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: rgba(255,255,255,0.2);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+tr:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* POPUP */
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+}
+
+.popup-content {
+    background: white;
+    color: black;
+    padding: 20px;
+    width: 300px;
+    margin: 150px auto;
+    border-radius: 12px;
+}
+
+/* STATUS COLORS */
+.approved {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.pending {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.rejected {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* BUTTONS */
+.approve-btn {
+    background: linear-gradient(135deg, #28a745, #5dd39e);
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 2px;
+    transition: 0.3s;
+}
+
+.reject-btn {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 2px;
+    transition: 0.3s;
+}
+
+.approve-btn:hover,
+.reject-btn:hover {
+    transform: scale(1.08);
+}
+
+/* ========================= */
+/* REGISTER / LOGIN FORM FIX */
+/* ========================= */
+
+.bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.glass-card {
+    width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.glass-card input,
+.glass-card select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.glass-card button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.glass-card button:hover {
+    transform: scale(1.05);
+}

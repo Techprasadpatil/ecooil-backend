@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Dashboard - EcoOil</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg">
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>EcoOil</h2>
+        <p>Dashboard</p>
+
+        <!-- ✅ NEW -->
+        <p onclick="goToOwners()">Owner List</p>
+
+        <p onclick="logout()">Logout</p>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h1>Company Dashboard</h1>
+
+        <!-- CARDS -->
+        <div class="cards">
+
+            <div class="card green">
+                <h3>Approved</h3>
+                <p id="approved">0</p>
+            </div>
+
+            <div class="card yellow">
+                <h3>Pending</h3>
+                <p id="pending">0</p>
+            </div>
+
+            <div class="card red">
+                <h3>Total</h3>
+                <p id="total">0</p>
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+        <table>
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody id="tableData"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    const BASE_URL = "http://localhost:8080/api/oil";
+
+    // 🔥 NEW FUNCTION
+    function goToOwners() {
+        window.location.href = "owner-list.html";
+    }
+
+    // LOAD DASHBOARD
+    function loadDashboard() {
+
+        fetch(BASE_URL + "/dashboard-summary?role=COMPANY&userId=1")
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById("total").innerText = data.total;
+            document.getElementById("approved").innerText = data.approved;
+            document.getElementById("pending").innerText = data.pending;
+
+            let table = "";
+
+            data.data.forEach(item => {
+
+                let statusClass = item.status.toLowerCase();
+
+                table += `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.userId}</td>
+                        <td>${item.quantity}</td>
+                        <td class="${statusClass}">${item.status}</td>
+                        <td>${item.price ? item.price : "-"}</td>
+                        <td>
+                            ${item.status === "PENDING" ? `
+                                <button class="approve-btn" onclick="approve(${item.id})">Approve</button>
+                                <button class="reject-btn" onclick="reject(${item.id})">Reject</button>
+                            ` : "Done"}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("tableData").innerHTML = table;
+
+        });
+    }
+
+    // APPROVE
+    function approve(id) {
+
+        let price = prompt("Enter price:");
+        if (!price) return;
+
+        fetch(BASE_URL + "/approve/" + id + "?price=" + price, {
+            method: "PUT"
+        })
+        .then(res => res.json())
+        .then(() => {
+            alert("Approved ✅");
+            loadDashboard();
+        });
+    }
+
+    // REJECT
+    function reject(id) {
+
+        fetch(BASE_URL + "/reject/" + id, {
+            method: "PUT"
+        })
+        .then(res => res.json())
+        .then(() => {
+            alert("Rejected ❌");
+            loadDashboard();
+        });
+    }
+
+    // LOGOUT
+    function logout() {
+        window.location.href = "login.html";
+    }
+
+    // AUTO LOAD
+    window.onload = loadDashboard;
+
+</script>
+
+</body>
+</html>

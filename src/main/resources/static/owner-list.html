@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Owner List - EcoOil</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg">
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>EcoOil</h2>
+        <p onclick="goBack()">Dashboard</p>
+        <p>Owner List</p>
+        <p onclick="logout()">Logout</p>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h1>Owner List</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Last Oil Date</th>
+            </tr>
+            </thead>
+
+            <tbody id="ownerTable"></tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    const BASE_URL = "http://localhost:8080/api/users";
+
+    function loadOwners() {
+
+        fetch(BASE_URL + "/owners")
+        .then(res => res.json())
+        .then(data => {
+
+            let table = "";
+
+            data.forEach(owner => {
+
+                table += `
+                    <tr>
+                        <td>${owner.name}</td>
+                        <td>${formatDate(owner.lastOilDate)}</td> <!-- 🔥 UPDATED -->
+                    </tr>
+                `;
+            });
+
+            document.getElementById("ownerTable").innerHTML = table;
+
+        });
+    }
+
+    // 🔥 NEW FUNCTION (date format)
+    function formatDate(dateStr) {
+        if (!dateStr || dateStr === "-") return "-";
+
+        let date = new Date(dateStr);
+
+        return date.toLocaleString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        });
+    }
+
+    function goBack() {
+        window.location.href = "company-dashboard.html";
+    }
+
+    function logout() {
+        window.location.href = "login.html";
+    }
+
+    window.onload = loadOwners;
+
+</script>
+
+</body>
+</html>
