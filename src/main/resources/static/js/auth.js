@@ -51,16 +51,16 @@ function login() {
     .then(res => res.json())
     .then(data => {
 
-        // 🔥 FIX 1: सही key (backend id भेजता है)
+
         localStorage.setItem("userId", data.id);
 
-        // 🔥 FIX 2: role normalize
+
         const role = (data.role || "").toUpperCase().trim();
         localStorage.setItem("role", role);
 
         console.log("Login role:", role); // 🔥 debug
 
-        // 🔥 FIX 3: सही redirect
+
         if (role === "COMPANY") {
             window.location.href = "company-dashboard.html";
         } else {
